@@ -169,8 +169,7 @@ impl Transport {
             params_string
         );
 
-        let response_result = util::Wait::new(Duration::from_secs(15), Duration::from_millis(5))
-            .until(|| response_rx.try_recv().ok());
+        let response_result = response_rx.recv();
         trace!("received response for: {} {:?}", &call_id, params_string);
         parse_response::<C::ReturnObject>((response_result?)?)
     }
